@@ -2,6 +2,7 @@ import { createWriteStream } from 'fs';
 
 export const saveFile = 
   (path: string, filename: string, ext: string) => 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (result: any, i: number): void => 
       result.pipe(createWriteStream(`${path}/${filename}:${i}.${ext}`));
 

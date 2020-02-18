@@ -13,6 +13,10 @@
   "devDependencies": {
     "@types/express": "^4.17.2",
     "@types/jest": "^25.1.2",
+    "@typescript-eslint/eslint-plugin": "^2.20.0",
+    "@typescript-eslint/parser": "^2.20.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-jest": "^23.7.0",
     "jest": "^25.1.0",
     "ts-jest": "^25.2.0",
     "tslint": "^6.0.0",
@@ -20,8 +24,12 @@
   },
   "scripts": {
     "build": "tsc",
-    "typecheck": "tsc --noEmit",
+    "lint": "yarn lint:src && yarn lint:tst",
+    "lint:fix": "yarn lint --fix",
+    "lint:src": "eslint ./src/** --ext .ts",
+    "lint:tst": "eslint ./tst/** --ext .ts",
     "start": "yarn build && node ./build/app.js",
-    "test": "jest"
+    "test": "jest",
+    "typecheck": "tsc --noEmit"
   }
 }

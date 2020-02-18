@@ -13,5 +13,6 @@ app.get(
   '/:pkg/:subpkg/:func', 
   async ({ url, params: { pkg, subpkg, func }, query }, res) => {
     console.log('request: ', url);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     res.send(await (pkgs as any)[pkg][subpkg][func](query));
   });
