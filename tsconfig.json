@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "outDir": "build",
         "target": "es2018",
         "module": "commonjs",
         "lib": ["es6"],
@@ -9,9 +10,10 @@
         "alwaysStrict": true,
         "noImplicitAny": true,
         "noImplicitThis": true,
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "noEmitOnError": false,
     },
-    "files": [
-        "app.ts"
+    "include": [
+        "src/**/*"
     ]
 }
