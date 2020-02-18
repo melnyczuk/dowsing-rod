@@ -1,10 +1,9 @@
 import { createWriteStream } from 'fs';
 
-export const saveFile = 
-  (path: string, filename: string, ext: string) => 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (result: any, i: number): void => 
-      result.pipe(createWriteStream(`${path}/${filename}:${i}.${ext}`));
+export const saveFile = (path: string, filename: string, ext: string) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (result: any, i: number): void =>
+    result.pipe(createWriteStream(`${path}/${filename}:${i}.${ext}`));
 
 // export const download = (data: BlobPart, filename: string, type: BlobPropertyBag['type']): void => {
 //   const file = new Blob([data], { type });
@@ -14,10 +13,9 @@ export const saveFile =
 //   document.body.appendChild(a);
 
 //   a.click();
-  
+
 //   setTimeout(function() {
 //     document.body.removeChild(a);
 //     window.URL.revokeObjectURL(href);
 //   }, 0);
 // }
-      

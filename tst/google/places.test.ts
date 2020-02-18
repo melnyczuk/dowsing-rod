@@ -10,7 +10,7 @@ describe('places', () => {
     const args = {
       location: 'test',
       radius: 10,
-    }
+    };
 
     beforeEach(() => {
       jest.clearAllMocks();
@@ -18,7 +18,7 @@ describe('places', () => {
 
     it('calls google maps client placesNearby function', async () => {
       const expected = {
-        params: expect.objectContaining({ ...args })
+        params: expect.objectContaining({ ...args }),
       };
 
       expect(placesNearby).not.toHaveBeenCalled();
@@ -31,7 +31,7 @@ describe('places', () => {
 
       placesNearby.mockResolvedValue(getPlacesNearbyResponse(expected));
 
-      const actual = await places.fetchPlaces(args)
+      const actual = await places.fetchPlaces(args);
       expect(actual).toStrictEqual(expected);
     });
   });

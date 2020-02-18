@@ -1,19 +1,17 @@
 {
-    "compilerOptions": {
-        "outDir": "build",
-        "target": "es2018",
-        "module": "commonjs",
-        "lib": ["es6"],
-        "declaration": true,
-        "removeComments": false,
-        "stripInternal": true,
-        "alwaysStrict": true,
-        "noImplicitAny": true,
-        "noImplicitThis": true,
-        "strictNullChecks": true,
-        "noEmitOnError": false,
-    },
-    "include": [
-        "src/**/*"
-    ]
+  "compilerOptions": {
+    "outDir": "build",
+    "target": "es2018",
+    "module": "commonjs",
+    "lib": ["es6"],
+    "declaration": true,
+    "removeComments": false,
+    "stripInternal": true,
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "noEmitOnError": false
+  },
+  "include": ["src/**/*"]
 }

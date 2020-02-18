@@ -10,9 +10,10 @@ const PORT = parseInt(process.env.PORT || '6666');
 app.listen(PORT, HOST, () => console.log('dowsing...'));
 
 app.get(
-  '/:pkg/:subpkg/:func', 
+  '/:pkg/:subpkg/:func',
   async ({ url, params: { pkg, subpkg, func }, query }, res) => {
     console.log('request: ', url);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     res.send(await (pkgs as any)[pkg][subpkg][func](query));
-  });
+  },
+);
