@@ -1,29 +1,41 @@
 import {
   Client,
   PlacePhotoResponse,
+  PlacesNearbyResponse,
 } from '@googlemaps/google-maps-services-js';
 import {
   PlacePhoto,
-  LatLng,
+  LatLngLiteral,
 } from '@googlemaps/google-maps-services-js/dist/common';
-import { PlacesNearbyResponse } from '@googlemaps/google-maps-services-js/dist/places/placesnearby';
 
-const key = process.env.GOOGLE_KEY || '';
+const key = process.env.GOOGLE_PLACES || '';
 const maps = new Client({});
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const parseResults = ({ data: { results = [] } }: any): Promise<any> => results;
+export type GoogleResponse = PlacePhotoResponse | PlacesNearbyResponse;
 
-export const fetchPlaces = ({
-  location = '',
-  radius = 0,
+const parseResults = ({
+  data: { error_message: error, results },
+}: GoogleResponse['data']): GoogleResponse['data']['results'] => {
+  if (error) console.log('Request error: ', error);
+  return results;
+};
+
+export const fetchPlaces = async ({
+  lat,
+  lng,
+  radius,
 }: {
-  location: LatLng;
+  lat: LatLngLiteral['lat'];
+  lng: LatLngLiteral['lng'];
   radius: number;
 }): Promise<PlacesNearbyResponse> =>
-  maps.placesNearby({ params: { location, radius, key } }).then(parseResults);
+  parseResults(
+    await maps.placesNearby({
+      params: { location: { lat, lng }, radius, key },
+    }),
+  );
 
-export const fetchPhotos = ({
+export const fetchPhotos = async ({
   photo: { photoreference },
   maxwidth = 1600,
   maxheight = 1600,
@@ -32,6 +44,8 @@ export const fetchPhotos = ({
   maxwidth: number;
   maxheight: number;
 }): Promise<PlacePhotoResponse> =>
-  maps
-    .placePhoto({ params: { photoreference, maxwidth, maxheight, key } })
-    .then(parseResults);
+  parseResults(
+    await maps.placePhoto({
+      params: { photoreference, maxwidth, maxheight, key },
+    }),
+  );
