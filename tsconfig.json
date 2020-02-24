@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "build",
+    "outDir": ".build",
     "target": "es2018",
     "module": "commonjs",
     "lib": ["es6"],
@@ -11,7 +11,9 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "noEmitOnError": false
+    "noEmitOnError": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "include": ["src/**/*"]
 }

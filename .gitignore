@@ -1,4 +1,5 @@
 .env
-build
+.build
+.dummy
 node_modules
 yarn-error.log
