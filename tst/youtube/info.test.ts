@@ -6,7 +6,7 @@ jest.mock('ytdl-core');
 
 describe('YouTube', () => {
   describe('info', () => {
-    it('uses ytdl', () => {
+    it('calls ytdl.getInfo with the correct query string', () => {
       expect(ytdl.getInfo).not.toHaveBeenCalled();
       info({ q: 'test' });
       expect(ytdl.getInfo).toHaveBeenCalledWith('test');
