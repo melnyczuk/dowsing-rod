@@ -1,7 +1,8 @@
 {
   "name": "dowsing_kit",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "types" : "dist/index.d.ts",
   "author": "melnyczuk",
   "license": "MIT",
   "dependencies": {
@@ -36,10 +37,11 @@
     "lint:fix": "yarn lint --fix",
     "lint:src": "eslint ./src/** --ext .ts",
     "lint:tst": "eslint ./tst/** --ext .ts",
+    "package": "yarn build --esModuleInterop --outDir .dist src/**/*",
     "prettier": "prettier '{src,tst}/**/*.ts'",
     "prettier:fix": "yarn prettier --write",
-    "start": "yarn build --outDir .build && node ./.build/app.js",
-    "start:dev": "yarn build --outDir .dummy ./dev/*.ts && cp -r ./dev/data .dummy && node .dummy/app.js",
+    "start": "yarn build && node build/server/app.js",
+    "start:dev": "yarn build --outDir .dummy dev/*.ts && cp -r dev/data .dummy && node .dummy/app.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "typecheck": "tsc --noEmit"
@@ -55,5 +57,14 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  }
+  },
+  "description": "a toolkit for web discovery",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/melnyczuk/dowsing_kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/melnyczuk/dowsing_kit/issues"
+  },
+  "homepage": "https://github.com/melnyczuk/dowsing_kit#readme"
 }
