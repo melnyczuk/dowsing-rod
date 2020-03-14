@@ -1,5 +1,5 @@
 require('dotenv').config();
-import * as express from 'express';
+import express from 'express';
 import * as pkgs from '.';
 
 const app = express();
@@ -11,8 +11,14 @@ app.listen(PORT, HOST, () => console.log('dowsing...'));
 app.get(
   '/:pkg/:subpkg/:func',
   async ({ url, params: { pkg, subpkg, func }, query }, res) => {
-    console.log(`request: ${url}`);
+    console.log('request:', url, pkg, subpkg, func, query);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     res.send(await (pkgs as any)[pkg][subpkg][func](query));
   },
 );
+
+app.get('/:pkg/:func', async ({ url, params: { pkg, func }, query }, res) => {
+  console.log(`request: ${url}`);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  res.send(await (pkgs as any)[pkg][func](query));
+});
