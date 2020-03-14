@@ -2070,6 +2070,11 @@ html-encoding-sniffer@^1.0.2:
   dependencies:
     whatwg-encoding "^1.0.1"
 
+html-entities@^1.1.3:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/html-entities/-/html-entities-1.2.1.tgz#0df29351f0721163515dfb9e5543e5f6eed5162f"
+  integrity sha1-DfKTUfByEWNRXfueVUPl9u7VFi8=
+
 html-escaper@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/html-escaper/-/html-escaper-2.0.0.tgz#71e87f931de3fe09e56661ab9a29aadec707b491"
@@ -4836,3 +4841,10 @@ yargs@^15.0.0:
     which-module "^2.0.0"
     y18n "^4.0.0"
     yargs-parser "^16.1.0"
+
+ytsr@^0.1.11:
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/ytsr/-/ytsr-0.1.11.tgz#223041db1f610b9c4453e4be63764a775e0c74ba"
+  integrity sha512-f7RILud27ufqsw3+Zi0J5itQ7qOt7BzN2EhqQARFhZq9HdxrlSfwvymiO/wvzFALCR2bgyxfz/cJhWyjUlokCA==
+  dependencies:
+    html-entities "^1.1.3"
