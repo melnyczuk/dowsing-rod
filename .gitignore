@@ -1,5 +1,6 @@
 .env
 .build
+.dist
 .dummy
 node_modules
 yarn-error.log
