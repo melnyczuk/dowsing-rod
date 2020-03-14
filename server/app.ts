@@ -1,6 +1,6 @@
 require('dotenv').config();
 import express from 'express';
-import * as pkgs from '.';
+import * as pkgs from '../src';
 
 const app = express();
 const HOST = process.env.HOST || 'localhost';

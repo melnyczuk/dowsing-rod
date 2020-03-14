@@ -38,7 +38,7 @@
     "lint:tst": "eslint ./tst/** --ext .ts",
     "prettier": "prettier '{src,tst}/**/*.ts'",
     "prettier:fix": "yarn prettier --write",
-    "start": "yarn build --outDir .build && node ./.build/app.js",
+    "start": "yarn build --outDir .build && node ./.build/server/app.js",
     "start:dev": "yarn build --outDir .dummy ./dev/*.ts && cp -r ./dev/data .dummy && node .dummy/app.js",
     "test": "jest",
     "test:watch": "jest --watch",

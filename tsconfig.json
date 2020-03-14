@@ -16,6 +16,6 @@
     "esModuleInterop": true,
     "typeRoots": ["dep", "node_modules/@types"]
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "server/**/*"],
   "exclude": ["dep/**/*"]
 }
