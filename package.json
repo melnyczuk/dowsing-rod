@@ -37,11 +37,11 @@
     "lint:fix": "yarn lint --fix",
     "lint:src": "eslint ./src/** --ext .ts",
     "lint:tst": "eslint ./tst/** --ext .ts",
-    "package": "yarn build --esModuleInterop --outDir .dist src/**/*",
+    "package": "yarn build --esModuleInterop --outDir dist src/**/*",
     "prettier": "prettier '{src,tst}/**/*.ts'",
     "prettier:fix": "yarn prettier --write",
     "start": "yarn build && node build/server/app.js",
-    "start:dev": "yarn build --outDir .dummy dev/*.ts && cp -r dev/data .dummy && node .dummy/app.js",
+    "start:dev": "yarn build --outDir dummy dev/*.ts && cp -r dev/data dummy && node dummy/app.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "typecheck": "tsc --noEmit"

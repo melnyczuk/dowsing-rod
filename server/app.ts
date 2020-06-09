@@ -10,15 +10,28 @@ app.listen(PORT, HOST, () => console.log('dowsing...'));
 
 app.get(
   '/:pkg/:subpkg/:func',
-  async ({ url, params: { pkg, subpkg, func }, query }, res) => {
-    console.log('request: ', url);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    res.send(await (pkgs as any)[pkg][subpkg][func](query));
+  async ({ params: { pkg, subpkg, func }, query, url }, res) => {
+    try {
+      console.log('url', url, 'query', query);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      res.send(await (pkgs as any)[pkg][subpkg][func](query));
+    } catch (e) {
+      res.send({ type: '/:pkg/:func', url, query });
+    }
   },
 );
 
-app.get('/:pkg/:func', async ({ url, params: { pkg, func }, query }, res) => {
-  console.log('request: ', url);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  res.send(await (pkgs as any)[pkg][func](query));
+app.get('/:pkg/:func', async ({ params: { pkg, func }, query, url }, res) => {
+  try {
+    console.log('url', url, 'query', query);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    res.send(await (pkgs as any)[pkg][func](query));
+  } catch (e) {
+    console.log('query', query);
+    res.send({ type: '/:pkg/:func', url, query });
+  }
+});
+
+app.get('/:any', ({ url }, res) => {
+  res.send(url);
 });
