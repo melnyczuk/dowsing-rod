@@ -2,5 +2,7 @@
 .build
 .dist
 .dummy
-node_modules
-yarn-error.log
+
+bin
+lib
+include
