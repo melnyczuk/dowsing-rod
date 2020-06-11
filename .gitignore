@@ -1,8 +1,7 @@
 .env
-.build
-.dist
-.dummy
 
-bin
-lib
-include
+.mypy_cache
+__pycache__
+
+.DS_Store
+.vscode
