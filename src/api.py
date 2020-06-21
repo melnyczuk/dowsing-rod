@@ -33,7 +33,6 @@ class Api:
             try:
                 return requests.get(url, params=params)
             except Exception as e:
-                print("Get error: ", str(e))
                 raise e
 
     def post(
@@ -45,7 +44,6 @@ class Api:
             try:
                 return requests.post(url, data=data)
             except Exception as e:
-                print("Post error: ", str(e))
                 raise e
 
     def mock(self: "Api", url: str) -> MockResponse:
@@ -63,7 +61,6 @@ class Api:
         dev_header: bool = bool(self.headers.get("dev", False))
         dev_mode: bool = current_app.config.get("ENV", "dev") == "dev"
         dev: bool = dev_header or dev_mode
-        print("dev? ", dev)
         return dev
 
 
