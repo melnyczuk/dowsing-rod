@@ -4,18 +4,23 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+mypy = "*"
 black = "*"
 
 [packages]
 flask = "*"
-mypy = "*"
-black = "*"
-python-dotenv = "*"
 redis = "*"
 requests = "*"
+waitress = "*"
 
 [requires]
 python_version = "3.7"
 
 [pipenv]
 allow_prereleases = true
+
+[scripts]
+typecheck = "mypy --strict ."
+format = "black -l 80 ."
+dev = "flask run --reload --debugger"
+prod = "waitress-serve app:app"

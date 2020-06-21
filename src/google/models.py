@@ -1,32 +1,24 @@
 from dataclasses import dataclass
-from flask import Request
 
+from typing import Any, Dict, List, Type
 
-class Base(object):
-    def __init__(self, *args, **kwargs):
-        return
-
-
-@dataclass
-class RequestObj(Base):
-    @classmethod
-    def from_(cls, req: Request):
-        return cls(**req.args)
+from src.api import RequestObj
 
 
 @dataclass
-class Location(object):
+class Location(RequestObj):
     lat: float
     lng: float
 
+    def to_query(self: "Location") -> str:
+        return f"location={self.lat},{self.lng}"
+
 
 @dataclass
-class PlaceRequest(RequestObj, Location):
+class Place(Location):
     rad: float = 10.0
 
-    def to_query(self) -> str:
-        location = "location={latitude},{longitude}".format(
-            latitude=self.lat, longitude=self.lng
-        )
-        radius = "radius={r}".format(r=self.rad)
-        return "&".join((location, radius))
+    def to_query(self: "Place") -> str:
+        loc = Location(self.lat, self.lng).to_query()
+        rad = f"radius={self.rad}"
+        return "&".join((loc, rad))

@@ -2,41 +2,79 @@ import os
 import json
 import requests
 from flask import current_app
-from requests import Response
 from dataclasses import dataclass
 
-from typing import Callable, Optional, TypeVar, Union
+from flask import Request
+from requests import Response
+from werkzeug.datastructures import Headers
+
+from typing import Any, Callable, Dict, List, Type, Union
 
 
 @dataclass
 class MockResponse(object):
-    content: dict
+    content: Dict[str, Any]
 
-    def json(self):
+    def json(self: "MockResponse") -> Dict[str, Any]:
         return self.content
 
 
+@dataclass
 class Api:
-    dev: bool
-    dev_dir: str
-    mock: Optional[MockResponse] = None
+    fallback: str = ""
+    headers: Headers = Headers()
 
-    def __init__(self):
-        self.dev = current_app.config.get("ENV", "dev") == "dev"
-        self.dev_dir: str = os.path.join(current_app.root_path, "dev")
+    def get(
+        self: "Api", url: str, params: str
+    ) -> Union[MockResponse, Response]:
+        if self._dev():
+            return self.mock(url)
+        else:
+            try:
+                return requests.get(url, params=params)
+            except Exception as e:
+                print("Get error: ", str(e))
+                raise e
+
+    def post(
+        self: "Api", url: str, data: Dict[str, Any]
+    ) -> Union[MockResponse, Response]:
+        if self._dev():
+            return self.mock(url)
+        else:
+            try:
+                return requests.post(url, data=data)
+            except Exception as e:
+                print("Post error: ", str(e))
+                raise e
+
+    def mock(self: "Api", url: str) -> MockResponse:
+        dev_dir = os.path.join(str(current_app.root_path), "dev")
+        fallback_path = os.path.join(dev_dir, self.fallback)
+        try:
+            with open(fallback_path, "r") as resource:
+                data = json.load(resource)
+            return MockResponse(data)
+        except:
+            print(f"failed to load mock response for {url}")
+            return MockResponse({})
+
+    def _dev(self: "Api") -> bool:
+        dev_header: bool = bool(self.headers.get("dev", False))
+        dev_mode: bool = current_app.config.get("ENV", "dev") == "dev"
+        dev: bool = dev_header or dev_mode
+        print("dev? ", dev)
+        return dev
+
+
+class RequestObj:
+    to_query: Callable[..., str]
+
+    def __init__(
+        self: "RequestObj", *args: List[Any], **kwargs: Dict[str, Any]
+    ) -> None:
         return
 
-    def fallback(self, path: str):
-        rel_path = os.path.join(self.dev_dir, path)
-
-        with open(rel_path, "r") as resource:
-            data = json.load(resource)
-
-        self.mock = MockResponse(data)
-        return self
-
-    def get(self, url: str, params: str) -> Union[Optional[MockResponse], Response]:
-        return requests.get(url, params=params) if not self.dev else self.mock
-
-    def post(self, url: str, data: dict) -> Union[Optional[MockResponse], Response]:
-        return requests.post(url, data=data) if not self.dev else self.mock
+    @classmethod
+    def from_(cls: Type["RequestObj"], req: Request) -> "RequestObj":
+        return cls(**req.args)
