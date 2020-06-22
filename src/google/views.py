@@ -8,6 +8,8 @@ from .models import Place
 
 google: Blueprint = Blueprint("google", __name__)
 
+PLACES_FALLBACK = "google/places.json"
+PLACES_KEY = os.environ.get("GOOGLE_PLACES_KEY")
 PLACES_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
 
 
@@ -16,11 +18,11 @@ def google_places() -> Tuple[Any, int]:
 
     try:
         place = Place.from_(request)
-        key = f"key={os.environ.get('GOOGLE_PLACES')}"
-        params = "&".join((key, place.to_query()))
+        key = f"key={PLACES_KEY}"
+        params = f"{key}&{place.to_query()}"
 
         resp = (
-            Api(fallback="google/places.json", headers=request.headers)
+            Api(fallback=PLACES_FALLBACK, headers=request.headers)
             .get(PLACES_URL, params)
             .json()
         )
