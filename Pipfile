@@ -6,6 +6,7 @@ verify_ssl = true
 [dev-packages]
 mypy = "*"
 black = "*"
+flake8 = "*"
 
 [packages]
 flask = "*"
@@ -22,5 +23,6 @@ allow_prereleases = true
 [scripts]
 typecheck = "mypy --strict ."
 format = "black -l 80 ."
+lint = "flake8 ."
 dev = "flask run --reload --debugger"
 prod = "waitress-serve app:app"
