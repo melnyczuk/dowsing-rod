@@ -1,16 +1,16 @@
 import os
-from flask import abort, Blueprint, request, jsonify
+from flask import abort, Blueprint, jsonify, request
+
+from src.api import Api
+from src.google.models import Place
 
 from typing import Any, Tuple
-
-from ..api import Api
-from .models import Place
-
-google: Blueprint = Blueprint("google", __name__)
 
 PLACES_FALLBACK = "google/places.json"
 PLACES_KEY = os.environ.get("GOOGLE_PLACES_KEY")
 PLACES_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
+
+google: Blueprint = Blueprint("google", __name__)
 
 
 @google.route("/google", methods=["GET"])

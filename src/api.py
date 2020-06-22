@@ -1,14 +1,13 @@
 import os
 import json
 import requests
-from flask import current_app
 from dataclasses import dataclass
+from flask import current_app
 
 from flask import Request
 from requests import Response
-from werkzeug.datastructures import Headers
-
 from typing import Any, Callable, Dict, List, Type, Union
+from werkzeug.datastructures import Headers
 
 
 @dataclass
