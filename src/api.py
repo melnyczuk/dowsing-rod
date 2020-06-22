@@ -25,28 +25,24 @@ class Api:
     headers: Headers = Headers()
 
     def get(
-        self: "Api", url: str, params: str
+        self: "Api", url: str, params: str = ""
     ) -> Union[MockResponse, Response]:
-        if self._dev():
-            return self.mock(url)
-        else:
-            try:
-                return requests.get(url, params=params)
-            except Exception as e:
-                raise e
+        return (
+            requests.get(url, params=params)
+            if not self._dev()
+            else self._mock(url)
+        )
 
     def post(
-        self: "Api", url: str, data: Dict[str, Any]
+        self: "Api", url: str, data: Dict[str, Any] = {}
     ) -> Union[MockResponse, Response]:
-        if self._dev():
-            return self.mock(url)
-        else:
-            try:
-                return requests.post(url, data=data)
-            except Exception as e:
-                raise e
+        return (
+            requests.post(url, data=data)
+            if not self._dev()
+            else self._mock(url)
+        )
 
-    def mock(self: "Api", url: str) -> MockResponse:
+    def _mock(self: "Api", url: str) -> MockResponse:
         dev_dir = os.path.join(str(current_app.root_path), "dev")
         fallback_path = os.path.join(dev_dir, self.fallback)
         try:
