@@ -23,6 +23,6 @@ def four_oh_four(e: object) -> Tuple[Any, int]:
     return (jsonify(error=str(e)), 404)
 
 
-@app.errorhandler(404)
+@app.errorhandler(500)
 def five_hundred(e: object) -> Tuple[Any, int]:
     return (jsonify(error=str(e)), 500)
