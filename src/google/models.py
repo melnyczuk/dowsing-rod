@@ -13,7 +13,7 @@ class Location(RequestObj):
 
 
 @dataclass
-class Place(Location):
+class Place(Location, RequestObj):
     rad: float = 10.0
 
     def to_query(self: "Place") -> str:
