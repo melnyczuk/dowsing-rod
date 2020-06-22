@@ -1,5 +1,5 @@
 import os
-from flask import abort, Blueprint, current_app, request, jsonify
+from flask import abort, Blueprint, request, jsonify
 
 from typing import Any, Tuple
 

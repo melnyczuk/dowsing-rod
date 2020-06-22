@@ -1,7 +1,5 @@
 from dataclasses import dataclass
 
-from typing import Any, Dict, List, Type
-
 from src.api import RequestObj
 
 

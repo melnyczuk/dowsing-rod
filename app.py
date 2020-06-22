@@ -1,4 +1,4 @@
-from flask import Flask, Response, jsonify
+from flask import Flask, jsonify
 
 from src.google.views import google
 

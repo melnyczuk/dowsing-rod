@@ -53,8 +53,8 @@ class Api:
             with open(fallback_path, "r") as resource:
                 data = json.load(resource)
             return MockResponse(data)
-        except:
-            print(f"failed to load mock response for {url}")
+        except FileNotFoundError as e:
+            print(f"failed to load mock response for {url}", e)
             return MockResponse({})
 
     def _dev(self: "Api") -> bool:
