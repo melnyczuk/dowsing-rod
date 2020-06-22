@@ -18,8 +18,7 @@ def google_places() -> Tuple[Any, int]:
 
     try:
         place = Place.from_(request)
-        key = f"key={PLACES_KEY}"
-        params = f"{key}&{place.to_query()}"
+        params = f"key={PLACES_KEY}&{place.to_query()}"
 
         resp = (
             Api(fallback=PLACES_FALLBACK, headers=request.headers)
