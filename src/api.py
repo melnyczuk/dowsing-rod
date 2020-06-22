@@ -10,7 +10,7 @@ from typing import Any, Callable, Dict, List, Type, Union
 from werkzeug.datastructures import Headers
 
 
-@dataclass
+@dataclass(frozen=True)
 class MockResponse(object):
     content: Dict[str, Any]
 
@@ -18,7 +18,7 @@ class MockResponse(object):
         return self.content
 
 
-@dataclass
+@dataclass(frozen=True)
 class Api:
     fallback: str = ""
     headers: Headers = Headers()

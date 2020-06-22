@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from src.api import RequestObj
 
 
-@dataclass
+@dataclass(frozen=True)
 class Location(RequestObj):
     lat: float
     lng: float
@@ -12,7 +12,7 @@ class Location(RequestObj):
         return f"location={self.lat},{self.lng}"
 
 
-@dataclass
+@dataclass(frozen=True)
 class Place(Location, RequestObj):
     rad: float = 10.0
 
