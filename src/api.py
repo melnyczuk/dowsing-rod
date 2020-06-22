@@ -6,7 +6,7 @@ from flask import current_app
 
 from flask import Request
 from requests import Response
-from typing import Any, Callable, Dict, List, Type, Union
+from typing import Any, Callable, Dict, Type, Union
 from werkzeug.datastructures import Headers
 
 
@@ -59,14 +59,14 @@ class Api:
         return dev
 
 
-class RequestObj:
+class RequestInterface:
     to_query: Callable[..., str]
 
-    def __init__(
-        self: "RequestObj", *args: List[Any], **kwargs: Dict[str, Any]
-    ) -> None:
+    def __init__(self: "RequestInterface", **kwargs: Dict[str, Any]) -> None:
         return
 
     @classmethod
-    def from_(cls: Type["RequestObj"], req: Request) -> "RequestObj":
-        return cls(**req.args)
+    def from_flask_request(
+        cls: Type["RequestInterface"], flask_request: Request
+    ) -> "RequestInterface":
+        return cls(**flask_request.args)

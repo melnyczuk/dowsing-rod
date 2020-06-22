@@ -17,7 +17,7 @@ google: Blueprint = Blueprint("google", __name__)
 def google_places() -> Tuple[Any, int]:
 
     try:
-        place = Place.from_(request)
+        place = Place.from_flask_request(request)
         params = f"key={PLACES_KEY}&{place.to_query()}"
 
         resp = (
