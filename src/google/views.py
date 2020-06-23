@@ -17,7 +17,7 @@ google: Blueprint = Blueprint("google", __name__)
 def google_places() -> Tuple[Any, int]:
 
     try:
-        place = Place.from_(request)
+        place = Place.from_flask_request(request)
         params = f"key={PLACES_KEY}&{place.to_query()}"
 
         resp = (
@@ -27,15 +27,15 @@ def google_places() -> Tuple[Any, int]:
         )
 
     except TypeError as e:
-        abort(404, f"bad place ({e})")
+        abort(400, f"Bad Place in google_places ({e})")
         return
 
     except Exception as e:
-        abort(500, f"something broke ({e})")
+        abort(500, f"Something broke in google_places ({e})")
         return
 
     if resp.get("error_message"):
-        abort(403, resp["error_message"])
+        abort(403, f"Google didn't like something ({resp['error_message']})")
         return
 
     return (jsonify(results=resp.get("results", []), original=resp), 200)

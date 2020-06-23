@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 
-from src.api import RequestObj
+from src.api import RequestInterface
 
 
-@dataclass
-class Location(RequestObj):
+@dataclass(frozen=True)
+class Location(RequestInterface):
     lat: float
     lng: float
 
@@ -12,8 +12,8 @@ class Location(RequestObj):
         return f"location={self.lat},{self.lng}"
 
 
-@dataclass
-class Place(Location, RequestObj):
+@dataclass(frozen=True)
+class Place(Location, RequestInterface):
     rad: float = 10.0
 
     def to_query(self: "Place") -> str:
