@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 
-from src.google.views import google
+from src.google.routes import google
 
 from typing import Any, Tuple
 
