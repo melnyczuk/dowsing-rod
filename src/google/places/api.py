@@ -1,9 +1,8 @@
 from src.api import Api
+from typing import Any, Dict
 
 from .config import PLACES_DETAIL_URL, PLACES_NEARBY_URL, PLACES_KEY
 from .models import Place
-
-from typing import Any, Dict
 
 
 def fetch_detail(place_id: str) -> Dict[str, Any]:

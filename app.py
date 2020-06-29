@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
+from typing import Any, Tuple
 
 from src.google.places.routes import places
-from typing import Any, Tuple
 
 app = Flask(__name__)
 app.register_blueprint(places)

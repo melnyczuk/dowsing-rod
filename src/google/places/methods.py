@@ -1,3 +1,5 @@
+from typing import Any, Dict, Iterable, Optional, Union
+
 from .models import (
     Detail,
     Location,
@@ -5,8 +7,6 @@ from .models import (
     Nearby,
     Review,
 )
-
-from typing import Any, Dict, Iterable, Optional, Union
 
 
 def nearby(data: Dict[str, Any]) -> Iterable[GooglePlace]:

@@ -1,10 +1,9 @@
 from flask import abort, Blueprint, jsonify, request
+from typing import Any, Callable, Dict, Iterable, Optional, Tuple
 
 from .api import fetch_detail, search_nearby
-from .models import Place, GoogleResponse, GoogleException
 from .methods import nearby, reviews
-
-from typing import Any, Callable, Dict, Iterable, Optional, Tuple
+from .models import Place, GoogleResponse, GoogleException
 
 
 places: Blueprint = Blueprint("places", __name__)

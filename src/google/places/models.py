@@ -1,8 +1,7 @@
 from dataclasses import dataclass, field
+from typing import Any, Dict, Iterable, Optional, TypedDict
 
 from src.api import RequestInterface
-
-from typing import Any, Dict, Iterable, Optional, TypedDict
 
 
 @dataclass(frozen=True)

@@ -3,8 +3,6 @@ import json
 import requests
 from flask import abort, current_app, request
 from dataclasses import dataclass, fields
-
-from requests import Response
 from typing import Any, Dict, Optional, Union
 
 
@@ -22,7 +20,7 @@ class Api:
 
     def get(
         self: "Api", url: str, params: str = ""
-    ) -> Union[MockResponse, Response]:
+    ) -> Union[MockResponse, requests.Response]:
         try:
             return (
                 requests.get(url, params=params)
@@ -35,7 +33,7 @@ class Api:
 
     def post(
         self: "Api", url: str, data: Dict[str, Any] = {}
-    ) -> Union[MockResponse, Response]:
+    ) -> Union[MockResponse, requests.Response]:
         try:
             return (
                 requests.post(url, data=data)
