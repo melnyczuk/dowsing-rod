@@ -1,8 +1,8 @@
 import os
 import json
 import requests
-from dataclasses import dataclass, fields
 from flask import abort, current_app, request
+from dataclasses import dataclass, fields
 
 from requests import Response
 from typing import Any, Dict, Optional, Union

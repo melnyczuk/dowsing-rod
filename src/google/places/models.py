@@ -1,9 +1,8 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from src.api import RequestInterface
 
-from typing import TypedDict
-from typing import Any, Dict, Iterable, Optional
+from typing import Any, Dict, Iterable, Optional, TypedDict
 
 
 @dataclass(frozen=True)
@@ -14,7 +13,7 @@ class GoogleException(Exception):
 @dataclass(frozen=True)
 class GoogleResponse:
     results: Iterable[Any]
-    original: Dict[str, Any]
+    original: Dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         if (status := self.original.get("status", "OK")) != "OK":
