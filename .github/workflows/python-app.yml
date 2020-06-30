@@ -23,10 +23,9 @@ jobs:
     - name: install
       run: |
         python -m pip install pipenv
-        python -m pipenv install --deploy
+        python -m pipenv install --deploy --dev
     - name: checks
       run: |
-        # stop the build if there are Python syntax errors or undefined names
         python -m pipenv run format
         python -m pipenv run lint
         python -m pipenv run typecheck
