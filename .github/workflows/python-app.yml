@@ -22,10 +22,10 @@ jobs:
         python-version: 3.8
     - name: install
       run: |
-        pipenv install --deploy
+        python -m pipenv install --deploy
     - name: checks
       run: |
         # stop the build if there are Python syntax errors or undefined names
-        pipenv run format
-        pipenv run lint
-        pipenv run typecheck
+        python -m pipenv run format
+        python -m pipenv run lint
+        python -m pipenv run typecheck
