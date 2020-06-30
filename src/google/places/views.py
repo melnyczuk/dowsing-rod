@@ -1,4 +1,6 @@
-from typing import Any, Dict, List, Tuple
+from typing import List, Tuple
+
+from src.models import JsonType
 
 from .models import (
     Location,
@@ -8,7 +10,7 @@ from .models import (
 )
 
 
-def nearby_view(data: List[Dict[str, Any]]) -> List[NearbyResult]:
+def nearby_view(data: List[JsonType]) -> List[NearbyResult]:
     return [
         NearbyResult(
             place_id=str(nearby["place_id"]),
@@ -21,9 +23,7 @@ def nearby_view(data: List[Dict[str, Any]]) -> List[NearbyResult]:
     ]
 
 
-def reviews_view(
-    data: List[Tuple[str, List[Dict[str, Any]]]]
-) -> List[ReviewsResult]:
+def reviews_view(data: List[Tuple[str, List[JsonType]]]) -> List[ReviewsResult]:
     return [
         ReviewsResult(
             place_id=place_id,

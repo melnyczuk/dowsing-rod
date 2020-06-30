@@ -1,4 +1,16 @@
 from dataclasses import dataclass, fields
+from typing import Any, Dict, NewType, Union
+
+
+JsonType = NewType("JsonType", Union[Dict[str, Any]])
+
+
+@dataclass(frozen=True)
+class MockResponse(object):
+    content: Dict[Any, Any]
+
+    def json(self: "MockResponse") -> Dict[Any, Any]:
+        return self.content
 
 
 @dataclass(frozen=True)

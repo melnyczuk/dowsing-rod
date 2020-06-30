@@ -1,5 +1,7 @@
 from flask import abort, Blueprint, jsonify, request
-from typing import Any, Callable, Dict, List, Tuple
+from typing import Any, Callable, List, Tuple
+
+from src.models import JsonType
 
 from .api import fetch_detail, search_nearby
 from .models import (
@@ -29,7 +31,7 @@ def _reviews() -> Tuple[Any, int]:
     def fallible_function() -> List[ReviewsResult]:
         place_ids: List[str] = request.args.getlist("place_ids")
 
-        def fetch_reviews(id: str):
+        def fetch_reviews(id: str) -> List[JsonType]:
             return fetch_detail(id, ["reviews"]).get("reviews", [])
 
         data = [(place_id, fetch_reviews(place_id)) for place_id in place_ids]
@@ -40,7 +42,7 @@ def _reviews() -> Tuple[Any, int]:
 
 @places.route("/google/places/<string:place_id>", methods=["GET"])
 def _detail(place_id: str) -> Tuple[Any, int]:
-    def fallible_function() -> Dict[str, Any]:
+    def fallible_function() -> JsonType:
         fields: List[str] = request.args.getlist("fields")
         return fetch_detail(place_id, fields)
 

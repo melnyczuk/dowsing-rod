@@ -21,7 +21,7 @@ class Review:
 @dataclass(frozen=True)
 class GoogleException(Exception):
     status: str
-    message: str
+    message: str = "¯\\_(ツ)_/¯"
 
 
 @dataclass(frozen=True)

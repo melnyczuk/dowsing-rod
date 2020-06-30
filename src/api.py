@@ -5,13 +5,7 @@ from flask import abort, current_app, request
 from dataclasses import dataclass
 from typing import Any, Dict, Optional, Union
 
-
-@dataclass(frozen=True)
-class MockResponse(object):
-    content: Dict[str, Any]
-
-    def json(self: "MockResponse") -> Dict[str, Any]:
-        return self.content
+from .models import MockResponse
 
 
 @dataclass(frozen=True)
