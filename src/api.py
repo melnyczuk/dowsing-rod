@@ -2,7 +2,7 @@ import os
 import json
 import requests
 from flask import abort, current_app, request
-from dataclasses import dataclass, fields
+from dataclasses import dataclass
 from typing import Any, Dict, Optional, Union
 
 
@@ -61,16 +61,3 @@ class Api:
         dev_mode: bool = current_app.config.get("ENV", "dev") == "dev"
         dev: bool = dev_header or dev_mode
         return dev
-
-
-@dataclass(frozen=True)
-class RequestInterface:
-    def __post_init__(self) -> None:
-        for field in fields(self):
-            if not isinstance(value := getattr(self, field.name), field.type):
-                object.__setattr__(self, field.name, float(value))
-
-    def to_query(self) -> str:
-        return "&".join(
-            (f"{attr}={value}" for attr, value in self.__dict__.items())
-        )

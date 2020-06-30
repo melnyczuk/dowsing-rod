@@ -1,22 +1,6 @@
-from dataclasses import dataclass, field
-from typing import Any, Dict, Iterable, Optional, TypedDict
-
-from src.api import RequestInterface
-
-
-@dataclass(frozen=True)
-class GoogleException(Exception):
-    message: str
-
-
-@dataclass(frozen=True)
-class GoogleResponse:
-    results: Iterable[Any]
-    original: Dict[str, Any] = field(default_factory=dict)
-
-    def __post_init__(self) -> None:
-        if (status := self.original.get("status", "OK")) != "OK":
-            raise GoogleException(self.original.get("error_message", status))
+from dataclasses import dataclass
+from typing import List
+from src.models import RequestInterface
 
 
 @dataclass(frozen=True)
@@ -29,39 +13,36 @@ class Location(RequestInterface):
 
 
 @dataclass(frozen=True)
-class Place(Location, RequestInterface):
-    rad: float = 100.0
-
-    def to_query(self: "Place") -> str:
-        loc = Location(self.lat, self.lng)
-        return f"{loc.to_query()}&radius={self.rad}"
-
-
-@dataclass(frozen=True)
-class Geometry(TypedDict):
-    location: Location
-
-
-@dataclass(frozen=True)
-class Review(TypedDict):
+class Review:
     rating: int
     text: str
 
 
 @dataclass(frozen=True)
-class Detail(TypedDict):
-    geometry: Geometry
-    reviews: Iterable[Review]
+class GoogleException(Exception):
+    status: str
+    message: str
 
 
 @dataclass(frozen=True)
-class Nearby(TypedDict):
-    geometry: Geometry
+class PlaceId:
     place_id: str
 
 
 @dataclass(frozen=True)
-class GooglePlace:
-    place_id: Optional[str] = None
-    location: Optional[Location] = None
-    reviews: Iterable[Review] = ()
+class ReviewsResult(PlaceId):
+    reviews: List[Review]
+
+
+@dataclass(frozen=True)
+class NearbyResult(PlaceId):
+    location: Location
+
+
+@dataclass(frozen=True)
+class PlaceRequest(Location, RequestInterface):
+    rad: float = 100.0
+
+    def to_query(self: "PlaceRequest") -> str:
+        loc = Location(self.lat, self.lng)
+        return f"{loc.to_query()}&radius={self.rad}"

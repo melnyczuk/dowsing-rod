@@ -1,10 +1,10 @@
 from flask import Flask, jsonify
 from typing import Any, Tuple
 
-from src.google.places.routes import places
+from src.google.places.controller import places as google_places_blueprint
 
 app = Flask(__name__)
-app.register_blueprint(places)
+app.register_blueprint(google_places_blueprint)
 
 
 @app.route("/ping", methods=["GET"])
