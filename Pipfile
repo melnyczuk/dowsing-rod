@@ -15,7 +15,7 @@ requests = "*"
 waitress = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"
 
 [pipenv]
 allow_prereleases = true
@@ -23,6 +23,6 @@ allow_prereleases = true
 [scripts]
 typecheck = "mypy --strict ."
 format = "black -l 80 ."
-lint = "flake8 ."
+lint = "flake8 --max-line-length 80 ."
 dev = "flask run --reload --debugger"
 prod = "waitress-serve app:app"
