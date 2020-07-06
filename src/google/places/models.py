@@ -30,13 +30,18 @@ class PlaceId:
 
 
 @dataclass(frozen=True)
-class ReviewsResult(PlaceId):
-    reviews: List[Review]
+class NearbyResult(PlaceId):
+    location: Location
 
 
 @dataclass(frozen=True)
-class NearbyResult(PlaceId):
-    location: Location
+class RatingResult(PlaceId):
+    rating: float
+
+
+@dataclass(frozen=True)
+class ReviewsResult(PlaceId):
+    reviews: List[Review]
 
 
 @dataclass(frozen=True)

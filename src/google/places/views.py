@@ -1,10 +1,11 @@
-from typing import List, Tuple
+from typing import Generator, List, Optional, Tuple
 
 from src.models import JsonType
 
 from .models import (
     Location,
     NearbyResult,
+    RatingResult,
     Review,
     ReviewsResult,
 )
@@ -23,7 +24,19 @@ def nearby_view(data: List[JsonType]) -> List[NearbyResult]:
     ]
 
 
-def reviews_view(data: List[Tuple[str, List[JsonType]]]) -> List[ReviewsResult]:
+def rating_view(
+    data: Generator[Tuple[str, Optional[float]], None, None]
+) -> List[RatingResult]:
+    return [
+        RatingResult(place_id=place_id, rating=rating)
+        for (place_id, rating) in data
+        if rating
+    ]
+
+
+def reviews_view(
+    data: Generator[Tuple[str, List[JsonType]], None, None]
+) -> List[ReviewsResult]:
     return [
         ReviewsResult(
             place_id=place_id,

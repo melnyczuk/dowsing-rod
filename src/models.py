@@ -16,11 +16,8 @@ class MockResponse(object):
 @dataclass(frozen=True)
 class ValidBase:
     def __post_init__(self) -> None:
-        print(f"{self=}")
         for field in fields(self):
-            print(f"{field=}")
             if not isinstance(value := getattr(self, field.name), field.type):
-                print(f"{field.type=}")
                 object.__setattr__(self, field.name, field.type(value))
 
 
