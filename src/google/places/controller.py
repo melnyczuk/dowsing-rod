@@ -1,5 +1,5 @@
 from flask import abort, Blueprint, jsonify, request
-from typing import Any, Callable, List, Tuple
+from typing import Any, Callable, List, Optional, Tuple
 
 from src.models import JsonType
 
@@ -8,9 +8,10 @@ from .models import (
     GoogleException,
     NearbyResult,
     PlaceRequest,
+    RatingResult,
     ReviewsResult,
 )
-from .views import nearby_view, reviews_view
+from .views import nearby_view, rating_view, reviews_view
 
 
 places: Blueprint = Blueprint("places", __name__)
@@ -26,6 +27,20 @@ def _nearby() -> Tuple[Any, int]:
     return _do(fallible_function)
 
 
+@places.route("/google/places/rating", methods=["GET"])
+def _rating() -> Tuple[Any, int]:
+    def fallible_function() -> List[RatingResult]:
+        place_ids: List[str] = request.args.getlist("place_ids")
+
+        def fetch_rating(id: str) -> Optional[float]:
+            return fetch_detail(id, ["rating"]).get("rating", None)
+
+        data = ((place_id, fetch_rating(place_id)) for place_id in place_ids)
+        return rating_view(data)
+
+    return _do(fallible_function)
+
+
 @places.route("/google/places/reviews", methods=["GET"])
 def _reviews() -> Tuple[Any, int]:
     def fallible_function() -> List[ReviewsResult]:
@@ -34,7 +49,7 @@ def _reviews() -> Tuple[Any, int]:
         def fetch_reviews(id: str) -> List[JsonType]:
             return fetch_detail(id, ["reviews"]).get("reviews", [])
 
-        data = [(place_id, fetch_reviews(place_id)) for place_id in place_ids]
+        data = ((place_id, fetch_reviews(place_id)) for place_id in place_ids)
         return reviews_view(data)
 
     return _do(fallible_function)
