@@ -10,7 +10,7 @@ flake8 = "*"
 
 [packages]
 flask = "*"
-redis = "*"
+flask-caching = "*"
 requests = "*"
 waitress = "*"
 
@@ -26,3 +26,4 @@ format = "black -l 80 ."
 lint = "flake8 --max-line-length 80 ."
 dev = "flask run --reload --debugger"
 prod = "waitress-serve app:app"
+redis = "redis-server"
