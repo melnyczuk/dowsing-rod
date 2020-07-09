@@ -6,6 +6,8 @@ from src.models import JsonType
 from .config import PLACES_DETAIL_URL, PLACES_NEARBY_URL, PLACES_KEY
 from .models import PlaceRequest, GoogleException
 
+api = Api()
+
 
 def fetch_detail(place_id: str, fields: Optional[List[str]]) -> JsonType:
     place_id_param = f"place_id={place_id}"
@@ -15,16 +17,14 @@ def fetch_detail(place_id: str, fields: Optional[List[str]]) -> JsonType:
         else f"fields={','.join(fields)}&{place_id_param}"
     )
     return _validate_google_response(
-        Api(fallback="/google/places/detail")
-        .get(PLACES_DETAIL_URL, params=_add_key(params))
-        .json()
+        api.get(PLACES_DETAIL_URL, params=_add_key(params)).json()
     ).get("result", {})
 
 
 def search_nearby(place: PlaceRequest) -> List[JsonType]:
     params = place.to_query()
     return _validate_google_response(
-        Api().get(PLACES_NEARBY_URL, params=_add_key(params)).json()
+        api.get(PLACES_NEARBY_URL, params=_add_key(params)).json()
     ).get("results", [])
 
 
