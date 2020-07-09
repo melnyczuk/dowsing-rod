@@ -1,4 +1,5 @@
 .env
+dump.rdb
 
 .mypy_cache
 __pycache__
