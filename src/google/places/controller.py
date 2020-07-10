@@ -1,11 +1,11 @@
-from flask import abort, Blueprint, jsonify, request
-from typing import Any, Callable, List, Optional, Tuple
+from flask import Blueprint, request
+from typing import List, Optional
 
 from src.models import JsonType
 
 from .api import fetch_detail, search_nearby
+from .errors import handle_errors
 from .models import (
-    GoogleException,
     NearbyResult,
     PlaceRequest,
     RatingResult,
@@ -18,63 +18,39 @@ places: Blueprint = Blueprint("places", __name__)
 
 
 @places.route("/google/places/nearby", methods=["GET"])
-def _nearby() -> Tuple[Any, int]:
-    def fallible_function() -> List[NearbyResult]:
-        place = PlaceRequest(**request.args)
-        data = search_nearby(place)
-        return nearby_view(data)
-
-    return _do(fallible_function)
+@handle_errors
+def _nearby() -> List[NearbyResult]:
+    place = PlaceRequest(**request.args)
+    data = search_nearby(place)
+    return nearby_view(data)
 
 
 @places.route("/google/places/rating", methods=["GET"])
-def _rating() -> Tuple[Any, int]:
-    def fallible_function() -> List[RatingResult]:
-        place_ids: List[str] = request.args.getlist("place_ids")
+@handle_errors
+def _rating() -> List[RatingResult]:
+    place_ids: List[str] = request.args.getlist("place_ids")
 
-        def fetch_rating(id: str) -> Optional[float]:
-            return fetch_detail(id, ["rating"]).get("rating", None)
+    def fetch_rating(id: str) -> Optional[float]:
+        return fetch_detail(id, ["rating"]).get("rating", None)
 
-        data = ((place_id, fetch_rating(place_id)) for place_id in place_ids)
-        return rating_view(data)
-
-    return _do(fallible_function)
+    data = ((place_id, fetch_rating(place_id)) for place_id in place_ids)
+    return rating_view(data)
 
 
 @places.route("/google/places/reviews", methods=["GET"])
-def _reviews() -> Tuple[Any, int]:
-    def fallible_function() -> List[ReviewsResult]:
-        place_ids: List[str] = request.args.getlist("place_ids")
+@handle_errors
+def _reviews() -> List[ReviewsResult]:
+    place_ids: List[str] = request.args.getlist("place_ids")
 
-        def fetch_reviews(id: str) -> List[JsonType]:
-            return fetch_detail(id, ["reviews"]).get("reviews", [])
+    def fetch_reviews(id: str) -> List[JsonType]:
+        return fetch_detail(id, ["reviews"]).get("reviews", [])
 
-        data = ((place_id, fetch_reviews(place_id)) for place_id in place_ids)
-        return reviews_view(data)
-
-    return _do(fallible_function)
+    data = ((place_id, fetch_reviews(place_id)) for place_id in place_ids)
+    return reviews_view(data)
 
 
 @places.route("/google/places/<string:place_id>", methods=["GET"])
-def _detail(place_id: str) -> Tuple[Any, int]:
-    def fallible_function() -> JsonType:
-        fields: List[str] = request.args.getlist("fields")
-        return fetch_detail(place_id, fields)
-
-    return _do(fallible_function)
-
-
-def _do(func: Callable[..., Any]) -> Tuple[Any, int]:
-    try:
-        results = func()
-    except TypeError as e:
-        abort(400, f"Bad input ({e})")
-
-    except GoogleException as e:
-        abort(400, f"Google didn't like something ({e.status}: {e.message})")
-        return
-
-    except Exception as e:
-        abort(500, e)
-
-    return (jsonify(results), 200)
+@handle_errors
+def _detail(place_id: str) -> JsonType:
+    fields: List[str] = request.args.getlist("fields")
+    return fetch_detail(place_id, fields)
