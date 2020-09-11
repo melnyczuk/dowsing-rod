@@ -8,11 +8,13 @@ app = Flask(__name__)
 app.register_blueprint(google_places_blueprint)
 
 cache.init_app(app)
+cache.set("ping", "pong")
 
 
 @app.route("/ping", methods=["GET"])
 def ping() -> Tuple[Any, int]:
-    return (jsonify("pong"), 200)
+    pong = cache.get("ping")
+    return (jsonify(pong), 200 if pong == "pong" else 507)
 
 
 @app.errorhandler(400)
