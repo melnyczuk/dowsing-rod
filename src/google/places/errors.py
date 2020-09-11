@@ -1,4 +1,4 @@
-from flask import abort, jsonify, request
+from flask import abort, jsonify
 from typing import Any, Callable, Tuple
 
 from src.logger import Logger
@@ -10,14 +10,18 @@ logger = Logger()
 
 
 def handle_errors(
-    func: Callable[..., Any], status=200
+    func: Callable[..., Any], status: int = 200
 ) -> Callable[..., Tuple[Any, int]]:
     def fallible_function() -> Tuple[Any, int]:
         try:
             results = func()
+            logger.request(status)
+            return (jsonify(results), status)
+
         except TypeError as e:
             logger.request(400)
             abort(400, f"Bad input ({e})")
+            return
 
         except GoogleException as e:
             logger.request(400)
@@ -30,9 +34,7 @@ def handle_errors(
         except Exception as e:
             logger.request(500)
             abort(500, e)
-
-        logger.request(status)
-        return (jsonify(results), status)
+            return
 
     fallible_function.__name__ = func.__name__
     return fallible_function
