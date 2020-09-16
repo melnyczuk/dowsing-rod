@@ -25,3 +25,6 @@ class Logger:
     def log(self: "Logger", msg: str) -> None:
         self.logger.info(msg)
         self.handler.close()
+
+
+logger = Logger()

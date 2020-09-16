@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 from typing import Any, Tuple
 
 from .cache import cache
-from .logger import Logger
+from .logger import logger
 
 from .google.places.controller import places as google_places_blueprint
 
@@ -12,7 +12,6 @@ server.register_blueprint(google_places_blueprint)
 
 cache.init_app(server)
 cache.set("ping", "pong")
-logger = Logger()
 
 logger.log("dowsing rod is ready 🤞")
 
