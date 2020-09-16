@@ -1,12 +1,28 @@
+import logging
 from flask import request
-from datetime import datetime
 from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
 class Logger:
-    def get_time(self: "Logger") -> str:
-        return datetime.now().strftime("%Y/%m/%d-%H:%M:%S")
+    logger: logging.Logger = logging.getLogger()
+    handler: logging.StreamHandler = logging.StreamHandler()
+
+    def __init__(self: "Logger") -> None:
+        self.logger.setLevel(logging.INFO)
+        self.handler.setFormatter(
+            logging.Formatter(
+                fmt="%(asctime)s | %(message)s", datefmt="%Y/%m/%d-%H:%M:%S"
+            )
+        )
+        self.logger.addHandler(self.handler)
 
     def request(self: "Logger", status: int = 200) -> None:
-        print(f"{self.get_time()} {request.path} {status}")
+        self.log(f"{request.path} {status}")
+
+    def log(self: "Logger", msg: str) -> None:
+        self.logger.info(msg)
+        self.handler.close()
+
+
+logger = Logger()

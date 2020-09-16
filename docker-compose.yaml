@@ -4,7 +4,7 @@ services:
     build: .
     env_file: .env
     ports:
-      - '8080:8080'
+      - '6666:6666'
     depends_on:
       - redis
     networks:
