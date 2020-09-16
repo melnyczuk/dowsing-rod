@@ -1,7 +1,6 @@
 FROM python:3.8.5-slim
-ADD app.py Pipfile Pipfile.lock ./
-COPY src ./src
+ADD Pipfile Pipfile.lock ./
 RUN pip install pipenv
 RUN pipenv sync
-EXPOSE 8080:8080
+COPY src ./src
 CMD pipenv run prod
