@@ -14,6 +14,8 @@ cache.init_app(server)
 cache.set("ping", "pong")
 logger = Logger()
 
+logger.log("dowsing rod is ready 🤞")
+
 
 @server.route("/ping", methods=["GET"])
 def ping() -> Tuple[Any, int]:
