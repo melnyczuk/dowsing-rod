@@ -1,12 +1,9 @@
 from flask import abort, jsonify
 from typing import Any, Callable, Tuple
 
-from src.logger import Logger
+from src.logger import logger
 
 from .models import GoogleException
-
-
-logger = Logger()
 
 
 def handle_errors(
