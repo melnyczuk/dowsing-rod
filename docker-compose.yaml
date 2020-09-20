@@ -3,16 +3,12 @@ services:
   dowsing-rod:
     build: .
     env_file: .env
+    environment:
+      - REDIS_URL=redis://redis:6379/0
     ports:
       - '6666:6666'
     depends_on:
       - redis
-    networks:
-      - redis
+
   redis:
     image: redis:6.0.8-alpine
-    networks:
-      - redis
-networks:
-  redis:
-    driver: bridge

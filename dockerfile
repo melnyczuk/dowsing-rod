@@ -1,7 +1,7 @@
 FROM python:3.8.5-slim
-ADD Pipfile Pipfile.lock ./
 RUN pip install pipenv
-RUN pipenv sync
+ADD Pipfile Pipfile.lock ./
+RUN pipenv install --system --deploy
 COPY src ./src
 EXPOSE 6666:6666
-CMD pipenv run prod
+CMD waitress-serve --port=6666 src.server:server
